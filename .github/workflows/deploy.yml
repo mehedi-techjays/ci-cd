@@ -1,29 +1,32 @@
 name: ci testing
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
+
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: setup node js
-              uses: actions/setup-node@v3
-              with:
-                node-version: 22
-            
-            - name: hello world
-              run: echo "Hello World"
-            
-            - name: Install dependencies
-              run: npm install
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
 
-            - name: deploy in npm
-              run: npm publish --access public
-              env:
-                NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-            
+      - name: Hello world
+        run: echo "Hello World"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Authenticate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Deploy to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
