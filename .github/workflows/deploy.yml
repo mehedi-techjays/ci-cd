@@ -1,6 +1,6 @@
 name: ci testing
 on:
-    pull_request:
+    push:
         branches:
             - main
 jobs:
@@ -22,6 +22,8 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: eslint check
-              run: npm run lint:fix
+            - name: deploy in npm
+              run: npm publish --access public
+              env:
+                NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
             
