@@ -1,3 +1,4 @@
-module.exports = ()=>{
-    console.log('Hello from workflow');
+module.exports = (number)=>{
+    if(!nubmer) return 0;
+    return number * number;
 }
